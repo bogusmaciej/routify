@@ -54,7 +54,6 @@ main{
     box-sizing: border-box;
     background-color: var(--other-bg-color);
     color: white;
-    box-shadow: 10px 5px 5px red;
     clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%);
     z-index: 2;
 }
@@ -85,12 +84,13 @@ main{
     content: '';
     box-sizing: border-box;
     width: 50vh;
-    height: 50vh;
-    border-radius: 50%;
+    height: 25vh;
+    border-top-left-radius: 25vh;
+    border-top-right-radius: 25vh;
     background-color: var(--other-bg-color);
     position: absolute;
-    bottom: -20vh;
-    right: -20vh;
+    bottom: 0;
+    right: -18vh;
     z-index: -1;
 }
 
@@ -120,6 +120,7 @@ a{
     align-items: center;
     cursor: pointer;
     z-index: 3;
+    box-shadow: 0px 15px 22px -20px rgb(66, 68, 90);
 }
 
 .header-link-arrow{

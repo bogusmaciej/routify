@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/playlist.css">
+    <link rel="stylesheet" href="styles/form.css">
+    <link rel="icon" href="images/logo.png">
+    <title>Routify</title>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img class="route-image" src="images/route.png">
+            <div class="header-first-half">
+                <div class="app-info-div">
+                    <div class="name">routify</div>
+                    <div class="description">going somewhere? create your own playlist that will perfectly match your journey!</div>
+                </div>
+            </div>
+            <div class="header-second-half">
+                <div class="authors-div">
+                    <div>Maciej Boguś</div>
+                    <div>Łukasz Zieliński</div> 
+                </div>
+            </div>
+        </div>
+        <a href="#main">
+            <div class="header-link">
+                <div class="header-link-arrow">try it!<br>&or;</div>
+            </div>
+        </a>
+    </header>
+    <main>
+        <a name="main"></a>
+        <div class="form-outer">
+            <form>
+                <h1>provide information below to generate a playlist</h1>
+                
+                <input type="text" name="origin" id="origin"  placeholder="going from" required>
+                <input type="text" name="destination" id="destination"  placeholder="going to" required>
+                <select name="mode" id="mode" required>
+                    <option value="none" selected disabled hidden >walk or drive?</option>
+                    <option value = "driving">driving</option>
+                    <option value = "walking">walking</option>
+                </select>
+                <input type="text" name="artist" id="artist"  placeholder="type your favourite artist" required>
+                <input type="text" name="genre" id="genre"  placeholder="type your favourite music genre" required>
+                <input type="button" id="create_playlist_button" value="generate playlist">
+                <span id="error"></span>
+            </form>
+            
+        </div>
+        <div class="playlist-outer">
+            <div id="loading-icon"></div>
+            <div class="playlist">
+                <div class="tracks">
+                    <div class="playlist-info">here will be displayed your generated playlist</div>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+    <footer>
+
+    </footer>
+</body>
+<script src="scripts/script.js"></script>
+</html>

@@ -1,0 +1,4 @@
+.venv
+auth.txt
+.cache
+/app/__pycache__/*
