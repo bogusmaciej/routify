@@ -1,23 +1,34 @@
 from app import app
-from flask import request, send_from_directory
-from flask_cors import CORS, cross_origin
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-import googlemaps
-import math
+from app.classes import SpotifyCC
+from app.classes import SpotifyOA
+from app.classes import Maps
+
+import json
 import os
+import googlemaps
 
-CORS(app, support_credentials=True) #cos tam do kwestii bezpieczenstwa, zeby mozna było robić fetch w js
+from flask import request, render_template, redirect, g
+from flask_cors import CORS, cross_origin
 
-spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 gmaps = googlemaps.Client(key=os.environ.get("GOOGLE_MAPS_API_KEY"))
-
-
+my_spotify_client_credentials = SpotifyCC.SpotifyCC()
+my_spotify_OAuth = SpotifyOA.SpotifyOA()
+CORS(app, support_credentials=True) #cos tam do kwestii bezpieczenstwa, zeby mozna było robić fetch w js
+#trzeva przetestowac tworzenie instancji oneiktu OAuth da danej sesji bo zapamietuje token  
 @app.route('/')
 @cross_origin(supports_credentials=True)
 def index():
-    return send_from_directory("static", "index.html")
+    code = request.args.get("code")
+    if(code):
+        print(f"code : {code}")
+        my_spotify_OAuth.set_token(code)
 
+    return render_template("index.html")
+
+@app.route('/login')
+def logowanie():
+    return redirect(my_spotify_OAuth.login())
+      
 @app.route('/api')
 @cross_origin(supports_credentials=True)
 def api():
@@ -28,84 +39,28 @@ def api():
         artists = request.args.getlist('artist')
         genres = request.args.getlist('genre')
         
-        route_info = get_route_info(origin, destination, mode)
-        route_duration = route_info["duration"]
-        estimated_numb_of_songs = math.ceil(route_duration/200)
-        if(estimated_numb_of_songs) == 0: estimated_numb_of_songs=1
-        artists_list = create_artist_id_list(artists)
+        maps = Maps.Maps(gmaps, origin, destination, mode)
         
-        playlist_duration = 0
-        number_of_tracks = 0
-        
-        tracks_dict = {
-            "route_info" : {
-                "origin" : origin,
-                "destination" : destination,
-                "mode" : mode,
-                "route_duration" : route_info["duration"],
-                "route_distance" : route_info["distance"]
-            },
-            "playlist":{
-                "number_of_tracks" : "",
-                "playlist_duration" : "",
-                "tracks" : []
-            },
-            "exception" : {
-                "isException" : False
-            }
-        }
-        
-        if(estimated_numb_of_songs>100) : estimated_numb_of_songs = 100
-
-        tracks_response = spotify.recommendations(seed_artists=artists_list, seed_genres=genres, limit=estimated_numb_of_songs)
-        
-        tracks_response = tracks_response["tracks"]
-        for track in tracks_response:
-            if route_duration > 0:
-                tracks_dict["playlist"]["tracks"].append(
-                    {
-                        "artist" : track["artists"][0]["name"],
-                        "name" : track["name"],
-                        "duration" : track["duration_ms"]/1000,
-                        "url" : track["external_urls"]["spotify"],
-                        "img" : track["album"]["images"][0]["url"],
-                    }
-                )
-                playlist_duration += round(track["duration_ms"]/1000, 2)
-                route_duration -= track["duration_ms"]/1000
-                number_of_tracks += 1
-            else: break
-        tracks_dict["playlist"]["playlist_duration"] = round(playlist_duration, 0)
-        tracks_dict["playlist"]["number_of_tracks"] = number_of_tracks
-        return tracks_dict
+        return my_spotify_client_credentials.create_playlist_api(artists, genres, maps)
 
     except Exception as e:
         response = {"exception" : { 
             "isException" : True,
-            "error" : "trzeba to zrobić kurde zeby pokazywało kody błedu np 502"
+            "error" : str(e)
             } }
         return response
 
-@app.route('/api/genres') #returns list of genres avaliable  
-@cross_origin(supports_credentials=True)
+@app.route('/api/genres') #returns list of genres avaliable 
 def genres_info():
-    return spotify.recommendation_genre_seeds()
+    return my_spotify_client_credentials.get_genres()
 
-def get_route_info(origin, destination, mode):
-    directions_result = gmaps.directions(origin, destination, mode=mode)
-    
-    result = {
-        "duration" : directions_result[0]["legs"][0]["duration"]["value"],
-        "distance" : directions_result[0]["legs"][0]["distance"]["text"]
-    }
-    
-    return result
-
-def create_artist_id_list(artists):
-    artists_list=[]
-    
-    for artist in artists:
-        respose = spotify.search(artist, type='artist')
-        artists_list.append(respose["artists"]["items"][0]["id"])
-        
-    return artists_list
+@app.route('/api/create-playlist', methods=['POST']) #creates playlist on spotify account  
+def create_playlist():
+    try:
+        print("creating")
+        tracks = json.loads(request.data)["tracks"]
+        my_spotify_OAuth.create_user_playlist(tracks = tracks)
+        return {"status":"ok", "message": "playlist created!"}
+    except Exception as e:
+        print(e)
+        return {"status":"error", "message": str(e)}

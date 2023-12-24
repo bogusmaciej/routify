@@ -24,6 +24,11 @@
     margin-bottom: 7vh;
 }
 
+.playlist-info a{
+    color: #0800ff;
+}
+
+
 .tracks{
     margin-top: 7vh;
     display: grid;
@@ -100,6 +105,10 @@
 
 #loading-icon.display{
     display: block;
+}
+
+#save_playlist_to_spotify_button{
+    cursor: pointer;
 }
 
 @keyframes spin {

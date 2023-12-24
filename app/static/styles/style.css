@@ -162,3 +162,21 @@ a{
     font-size: 20pt;
     mix-blend-mode:difference;
 }
+
+.message-box{
+    position: fixed;
+    bottom: 5vh;
+    right: 5%;
+    text-align: center;
+    padding: 20px;
+    width: 20%;
+    opacity : 0;
+    visibility: hidden;
+    color: white;
+    font-size: 22pt;
+    transition: 0.5s opacity;
+}
+
+.msg-visible{
+    opacity : 1;
+}
