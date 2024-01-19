@@ -1,7 +1,7 @@
-from app import app
-from app.classes import SpotifyCC
-from app.classes import SpotifyOA
-from app.classes import Maps
+from __main__ import app
+from classes import SpotifyCC
+from classes import SpotifyOA
+from classes import Maps
 
 import json
 import os
