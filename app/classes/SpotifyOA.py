@@ -1,4 +1,3 @@
-import math
 from datetime import datetime
 from spotipy import oauth2
 import spotipy
@@ -38,6 +37,6 @@ class SpotifyOA:
                 sp.user_playlist_add_tracks(user=user, playlist_id = pl["id"], tracks=tracks)
                 return ""
             except Exception as e:
-                print (e)
+                raise e
         else:
             print("no token")
