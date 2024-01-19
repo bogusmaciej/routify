@@ -1,4 +1,3 @@
-from __main__ import app
 from classes import SpotifyCC
 from classes import SpotifyOA
 from classes import Maps
@@ -7,15 +6,19 @@ import json
 import os
 import googlemaps
 
-from flask import request, render_template, redirect, g
+from flask import request, Blueprint, render_template, redirect, g
 from flask_cors import CORS, cross_origin
 
 gmaps = googlemaps.Client(key=os.environ.get("GOOGLE_MAPS_API_KEY"))
 my_spotify_client_credentials = SpotifyCC.SpotifyCC()
 my_spotify_OAuth = SpotifyOA.SpotifyOA()
-CORS(app, support_credentials=True) #cos tam do kwestii bezpieczenstwa, zeby mozna było robić fetch w js
-#trzeva przetestowac tworzenie instancji oneiktu OAuth da danej sesji bo zapamietuje token  
-@app.route('/')
+
+bp = Blueprint('app', __name__)
+CORS(bp, support_credentials=True) #cos tam do kwestii bezpieczenstwa, zeby mozna było robić fetch w js
+#trzeva przetestowac tworzenie instancji oneiktu OAuth da danej sesji bo zapamietuje token
+
+
+@bp.route('/')
 @cross_origin(supports_credentials=True)
 def index():
     code = request.args.get("code")
@@ -25,11 +28,11 @@ def index():
 
     return render_template("index.html")
 
-@app.route('/login')
+@bp.route('/login')
 def logowanie():
     return redirect(my_spotify_OAuth.login())
       
-@app.route('/api')
+@bp.route('/api')
 @cross_origin(supports_credentials=True)
 def api():
     try:
@@ -50,11 +53,11 @@ def api():
             } }
         return response
 
-@app.route('/api/genres') #returns list of genres avaliable 
+@bp.route('/api/genres') #returns list of genres avaliable 
 def genres_info():
     return my_spotify_client_credentials.get_genres()
 
-@app.route('/api/create-playlist', methods=['POST']) #creates playlist on spotify account  
+@bp.route('/api/create-playlist', methods=['POST']) #creates playlist on spotify account  
 def create_playlist():
     try:
         print("creating")

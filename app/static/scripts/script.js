@@ -58,7 +58,7 @@ async function getPlaylist(){
 
             if(urlParams.has('code')){
                 document.querySelector("#save_playlist_to_spotify_button")?.addEventListener('click', ()=> {
-                    fetch("http://127.0.0.1:5000/api/create-playlist", {
+                    fetch("/api/create-playlist", {
                             "method": "POST",
                             "body": JSON.stringify({"tracks":tracks_array}),
                     })
@@ -125,7 +125,7 @@ function calcTime(time_in_sec){
 }
 
 function createURL(origin, destionation, mode, artist, genre){
-    url = "http://127.0.0.1:5000/api?"+"origin="+origin+"&destination="+destionation+"&mode="+mode+"&artist="+artist+"&genre="+genre;
+    url = "/api?"+"origin="+origin+"&destination="+destionation+"&mode="+mode+"&artist="+artist+"&genre="+genre;
     return url
 }
 
@@ -181,7 +181,7 @@ function showMessageBox(message, isError = false){
 }
 
 (() => {
-    fetch("http://127.0.0.1:5000/api/genres")
+    fetch("/api/genres")
     .then(request => request.json())
     .then(response => {
         genres_array = response.genres
