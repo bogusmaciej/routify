@@ -37,6 +37,6 @@ class SpotifyOA:
                 sp.user_playlist_add_tracks(user=user, playlist_id = pl["id"], tracks=tracks)
                 return ""
             except Exception as e:
-                raise e
+                print(e)
         else:
             print("no token")
