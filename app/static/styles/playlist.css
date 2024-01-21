@@ -21,13 +21,8 @@
     grid-column-end: 4;
     font-size: 15pt;
     font-style: italic;
-    margin-bottom: 7vh;
-}
-
-.playlist-info a{
     color: #0800ff;
 }
-
 
 .tracks{
     margin-top: 7vh;
@@ -109,6 +104,15 @@
 
 #save_playlist_to_spotify_button{
     cursor: pointer;
+}
+
+.login{
+    font-size: 12pt;
+}
+
+.spotify_button{
+    width: 200px;
+    margin-top: 10px;
 }
 
 @keyframes spin {

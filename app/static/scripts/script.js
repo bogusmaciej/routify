@@ -1,10 +1,12 @@
 document.getElementById("create_playlist_button").addEventListener("click", getPlaylist);
 
 const playlist_div = document.querySelector(".tracks")
+const login_div = document.querySelector(".login")
 const error_box = document.querySelector("#error")
 const loading_icon = document.querySelector("#loading-icon");
 const message_box = document.querySelector(".message-box");
 const genres_suggestions_block = document.querySelector(".genres-suggestions");
+const urlParams = new URLSearchParams(window.location.search);
 let genres_array = []
 let tracks_array = []
 
@@ -54,7 +56,7 @@ async function getPlaylist(){
                 }
             }
             else showMessageBox("an error occurred while creating the playlist", true)
-            const urlParams = new URLSearchParams(window.location.search);
+            
 
             if(urlParams.has('code')){
                 document.querySelector("#save_playlist_to_spotify_button")?.addEventListener('click', ()=> {
@@ -77,7 +79,7 @@ async function getPlaylist(){
                 });
             }
             else{
-                document.querySelector("#save_playlist_to_spotify_button").href = "/login"
+                document.querySelector("#save_playlist_to_spotify_button").remove();
             }
 
             
@@ -198,6 +200,9 @@ function showMessageBox(message, isError = false){
             
         }
     });
-
-    checkGeoPermission()
+    if(!urlParams.has('code')){
+        login_div.innerHTML = 'to save generated playlist<br>login to Your Spotify account<br>';
+        login_div.innerHTML += '<a href = "/login"><img class="spotify_button" src="static/images/spoti_button.png"></a>';
+    }
+    checkGeoPermission();
 })();   

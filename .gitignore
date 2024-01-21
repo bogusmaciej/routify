@@ -2,3 +2,5 @@
 auth.txt
 .cache
 /app/__pycache__/*
+/app/classes/__pycache__/*
+.spotipyoauthcache
