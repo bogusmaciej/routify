@@ -105,7 +105,7 @@ function generatePlaylistInfo(origin, destination, mode, route_duration, route_d
     playlist_div.innerHTML+=`
     <div class='playlist-info'>
         you will <a href="https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=${mode}">travel</a> ${route_distance} in <b>${calcTime(route_duration)}</b>.<br>
-        generated playlist has <b>${tracks_num}</b> traks and is <b>${calcTime(playlist_duration)}</b> long.<br>
+        generated playlist has <b>${tracks_num}</b> tracks and is <b>${calcTime(playlist_duration)}</b> long.<br>
         <b>${warning}</b>
         <a id="save_playlist_to_spotify_button">add this playlist to your Spotify account</a>
     </div>`
