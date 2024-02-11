@@ -91,9 +91,22 @@
         <div class="message-box"></div>
     </main>
     <footer>
-
+        <div class="contact-form-outer-div">
+            <h1>Send us message</h1>
+            <form class = "contact-form">
+                <input type="email" id="contact_email" placeholder="email"><br>
+                <input type="text" id="contact_title" placeholder="message title"><br>
+                <textarea name="contact_message" id="contact_message" cols="41" rows="8"></textarea><br>
+                <div class="div_for_checkbox">
+                    <input type="checkbox" name="contact_terms" id="contact_terms">
+                    <label for="contact_terms">Accept terms</label>
+                </div>
+                <input type="button" value="send" id="contact_button" name="contact_button">
+            </form>
+        </div>
     </footer>
 </body>
 <script src="../static/scripts/location.js"></script>
 <script src="../static/scripts/script.js"></script>
+<script src="../static/scripts/script_for_form.js"></script>
 </html>

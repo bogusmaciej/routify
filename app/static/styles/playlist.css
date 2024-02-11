@@ -21,6 +21,9 @@
     grid-column-end: 4;
     font-size: 15pt;
     font-style: italic;
+}
+
+.playlist-info a{
     color: #0800ff;
 }
 

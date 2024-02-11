@@ -180,3 +180,69 @@ a{
 .msg-visible{
     opacity : 1;
 }
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Opcjonalnie, aby formularz był wyśrodkowany na całej wysokości ekranu */
+    width: 100%;
+    background-color: #232240;
+}
+
+.contact-form{
+    width: 1000px;
+    display: inline-block;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.contact-form input[type="button"], .contact-form input[type="text"], .contact-form input[type="email"] {
+    margin: 10px;
+    width: 60%;
+}
+
+.contact-form input[type="button"] {
+    background-color: #abb7d1;
+    color: black;
+}
+
+footer h1 {
+    color: white;
+}  
+
+textarea{
+    margin: 10px;
+    padding: 15px;
+    font-size: 17pt;
+    box-sizing: border-box;
+}
+
+.contact-form-outer-div {
+    text-align: center; /* Wyśrodkowanie w pionie */
+    width: 100%;
+}
+
+input[type="checkbox"]{
+    height:initial !important;
+    width:initial !important;
+} 
+
+label[for="contact_terms"]{
+    color:white !important;
+    font-size: 15pt;
+    position: initial;
+    top: initial;
+    left: initial;
+    z-index: initial;
+    color: initial;
+    pointer-events: initial;
+    transition: initial;
+    font-style: initial;
+} 
+
+.div_for_checkbox{
+    width: 70%;
+    align-items: center;
+    
+}
